@@ -34,6 +34,9 @@ workflows:
   build_and_push_image:
     jobs:
       - aws-ecr/build-and-push-image:
+          filters:
+            branches:
+              only: main
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-cli-version: latest
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
@@ -44,5 +47,8 @@ workflows:
           repo: "${AWS_ECR_REPO_NAME}"
           tag: latest
       - install_k8s:
+          filters:
+            branches:
+              only: main
           requires:
             - aws-ecr/build-and-push-image
