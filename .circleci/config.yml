@@ -43,12 +43,6 @@ workflows:
           region: AWS_REGION
           registry-id: AWS_ECR_REGISTRY_ID
           repo: "${AWS_ECR_REPO_NAME}"
-          repo-policy-path: repo-policy.json
-          repo-scan-on-push: true
-          role-arn: arn:aws:iam::123456789012:role/testing
-          set-repo-policy: true
-          skip-when-tags-exist: false
-          source-profile: sourceProfileName
           tag: latest
       - install_k8s:
           requires:
