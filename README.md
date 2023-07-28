@@ -25,8 +25,8 @@ Things you may want to cover:
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
-   - Deploy in local: ```./deploy.sh --dev```
-   - Deploy to AWS: ```./deploy.sh --prod```
+   - Deploy in local: ```./deploy.sh dev```
+   - Deploy to AWS: ```./deploy.sh prod```
 
 
 ## Design Overview

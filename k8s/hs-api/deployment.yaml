@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: hs-api
+  name: hs-api
+  namespace: rails-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: hs-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        service: hs-api
+    spec:
+      containers:
+        - name: hs-api
+          image: 502479798840.dkr.ecr.us-east-2.amazonaws.com/hs-app:latest
+          ports:
+            - containerPort: 8010
+              hostPort: 8010
+              protocol: TCP
+          resources: {}
+          env:
+          - name: WORKER_PROCESSES
+            valueFrom:
+              secretKeyRef:
+                name: hs-api-config
+                key: worker-processes
+          - name: LISTEN_ON
+            valueFrom:
+              secretKeyRef:
+                name: hs-api-config
+                key: listen-on
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: hs-api-config
+                key: database-url
+          - name: CACHE_URL
+            valueFrom:
+              secretKeyRef:
+                name: hs-api-config
+                key: cache-url
+          - name: JOB_WORKER_URL
+            valueFrom:
+              secretKeyRef:
+                name: hs-api-config
+                key: job-worker-url
+      imagePullSecrets:
+        - name: regcred
+      restartPolicy: Always
+status: {}
