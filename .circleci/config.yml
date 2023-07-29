@@ -8,12 +8,13 @@ jobs:
   build_and_test:
     docker:
       - image: cimg/base:stable
-      - image: mysql:8
         environment:
-          MYSQL_ROOT_PASSWORD: "12345678"
-          MYSQL_USER: "hs"
-          MYSQL_PASSWORD: "hs"
-          MYSQL_DATABASE: "hotel_search_test"
+          RAILS_ENV: test
+          DATABASE_URL: mysql2://root:@127.0.0.1:3306/hotel_search_test
+      - image: mysql:8
+        command: [--default-authentication-plugin=mysql_native_password]
+        environment:
+          MYSQL_DATABASE: hotel_search_test
     steps:
       - checkout
       - ruby/install:
@@ -24,7 +25,7 @@ jobs:
           command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
       - run:
           name: set up db
-          command: RAILS_ENV=test DATABASE_URL=mysql2://hs:hs@127.0.0.1:3306/hotel_search_test bundle exec rails db:migrate
+          command: bundle exec rails db:migrate
       - run:
           name: run rspec
           command: bundle exec rspec
