@@ -15,6 +15,7 @@ jobs:
         command: [--default-authentication-plugin=mysql_native_password]
         environment:
           MYSQL_DATABASE: hotel_search_test
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
     steps:
       - checkout
       - ruby/install:
