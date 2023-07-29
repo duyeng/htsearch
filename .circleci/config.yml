@@ -1,41 +1,35 @@
 version: 2.1
 
 orbs:
+  ruby: circleci/ruby@2.1.0
   aws-ecr: circleci/aws-ecr@8.2.1
 
 jobs:
   build_and_test:
-    executor: default
+    docker:
+      - image: cimg/base:stable
+        environment:
+          RAILS_ENV: test
+          DATABASE_URL: mysql2://root:@127.0.0.1:3306/hotel_search_test
+      - image: mysql:8
+        command: [--default-authentication-plugin=mysql_native_password]
+        environment:
+          MYSQL_DATABASE: hotel_search_test
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - hix-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-            - hix-
-            - configure_bundler
-      - run:
-          name: Install bundle
-          command: bundle install
+      - ruby/install:
+          version: '3.1.2'
+      - ruby/install-deps
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
       - run:
-          name: Setup DB
-          command: RAILS_ENV=test bundle exec rails db:create db:schema:load --trace
+          name: set up db
+          command: bundle exec rails db:migrate
       - run:
-          name: Rails test
-          command: |
-            bundle exec rails test
-      - store_artifacts:
-          path: coverage
-      - save_cache:
-          key: hix-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - ./hix
+          name: run test
+          command: bundle exec rails test
 
   install_k8s:
     docker:
@@ -66,6 +60,7 @@ jobs:
 workflows:
   build_and_push_image:
     jobs:
+      - build_and_test
       - aws-ecr/build-and-push-image:
           filters:
             branches:
