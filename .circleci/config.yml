@@ -7,7 +7,7 @@ orbs:
 jobs:
   build_and_test:
     docker:
-      - image: circleci/ruby:3.1.2
+      - image: circleci/ruby:3.0.0
       - image: mysql:8
         environment:
           MYSQL_ROOT_PASSWORD: "12345678"
