@@ -1,4 +1,4 @@
-module Suppliers
+module DataExtract
   class Patagonia < Base
     URL_PATH = "https://5f2be0b4ffc88500167b85a0.mockapi.io/suppliers/patagonia"
 

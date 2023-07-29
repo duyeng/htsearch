@@ -8,12 +8,12 @@ class CleanDataJob
 
     new_models = nil
 
-    puts "#{model_name} #{models}"
+    puts "before clean #{model_name} #{models}"
 
     cleaner = DataCleaning::Factory.get(model_name)
     new_models = cleaner.execute(models)
 
-    puts "#{model_name} #{new_models}"
+    puts "after clean #{model_name} #{new_models}"
     ImportDataJob.perform_async([model_name, new_models].to_json) if new_models
   end
 end

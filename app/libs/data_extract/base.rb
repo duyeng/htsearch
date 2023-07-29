@@ -1,6 +1,6 @@
 require 'net/http'
 
-module Suppliers
+module DataExtract
   class Base
     def extract_data
       uri = URI(url_path)

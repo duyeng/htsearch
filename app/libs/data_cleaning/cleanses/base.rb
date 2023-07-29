@@ -16,9 +16,7 @@ module DataCleaning
           cleaner.attributes.each do |attribute|
             value = attrs[attribute.to_s]
             cleaner.cleaners.each do |cleaner_name|
-              puts "Before data cleaning #{cleaner_name} #{value}"
               new_value = execute_clean_attr(cleaner_name, value)
-              puts "After data cleaning #{new_value}"
               new_attrs[attribute.to_s] = new_value
             end
           end

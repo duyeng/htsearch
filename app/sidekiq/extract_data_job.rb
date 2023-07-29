@@ -5,10 +5,13 @@ class ExtractDataJob
   queue_as :default
 
   def perform(*args)
-    supplier = Suppliers::Factory.get(args[0])
+    supplier = DataExtract::Factory.get_supplier(args[0])
     hotels, locations, images, amenities = [], [], [], []
 
     merged_hotels = supplier&.extract_data
+
+    puts "extract_data #{merged_hotels}"
+
     merged_hotels.each do |hotel|
       id = hotel[:id]
       dest_id = hotel[:destination_id]
