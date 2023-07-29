@@ -4,6 +4,39 @@ orbs:
   aws-ecr: circleci/aws-ecr@8.2.1
 
 jobs:
+  build_and_test:
+    executor: default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - hix-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - hix-
+            - configure_bundler
+      - run:
+          name: Install bundle
+          command: bundle install
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
+      - run:
+          name: Setup DB
+          command: RAILS_ENV=test bundle exec rails db:create db:schema:load --trace
+      - run:
+          name: Rails test
+          command: |
+            bundle exec rails test
+      - store_artifacts:
+          path: coverage
+      - save_cache:
+          key: hix-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - ./hix
+
   install_k8s:
     docker:
       - image: cimg/python:3.10.7

@@ -3,7 +3,7 @@ module Suppliers
     URL_PATH = "https://5f2be0b4ffc88500167b85a0.mockapi.io/suppliers/patagonia"
 
     private
-    def transform_data(json_data)
+    def reformat_data(json_data)
       hotel_id = json_data['id']
       destination_id = json_data['destination']
       name = json_data['name']
