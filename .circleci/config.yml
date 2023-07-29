@@ -25,10 +25,10 @@ jobs:
           name: Wait for DB
           command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
       - run:
-          name: set up db
+          name: Set up db
           command: bundle exec rails db:migrate
       - run:
-          name: run test
+          name: Run test
           command: bundle exec rails test
 
   install_k8s:
@@ -74,6 +74,8 @@ workflows:
           registry-id: AWS_ECR_REGISTRY_ID
           repo: "${AWS_ECR_REPO_NAME}"
           tag: latest
+          requires:
+            - build_and_test
       - install_k8s:
           filters:
             branches:
