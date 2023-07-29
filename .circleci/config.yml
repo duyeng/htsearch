@@ -1,41 +1,28 @@
 version: 2.1
 
 orbs:
+  ruby: circleci/ruby@1.1.2
   aws-ecr: circleci/aws-ecr@8.2.1
 
 jobs:
   build_and_test:
-    executor: default
+    docker:
+      - image: circleci/ruby:3.1.2
+      - image: mysql:5.7
+        environment:
+          MYSQL_ROOT_PASSWORD: "12345678"
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - hix-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-            - hix-
-            - configure_bundler
-      - run:
-          name: Install bundle
-          command: bundle install
+      - ruby/install-deps
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
       - run:
-          name: Setup DB
-          command: RAILS_ENV=test bundle exec rails db:create db:schema:load --trace
+          name: set up db
+          command: bundle exec rails db:create db:migrate
       - run:
-          name: Rails test
-          command: |
-            bundle exec rails test
-      - store_artifacts:
-          path: coverage
-      - save_cache:
-          key: hix-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - ./hix
+          name: run rspec
+          command: bundle exec rspec
 
   install_k8s:
     docker:
@@ -66,6 +53,7 @@ jobs:
 workflows:
   build_and_push_image:
     jobs:
+      - build_and_test
       - aws-ecr/build-and-push-image:
           filters:
             branches:
