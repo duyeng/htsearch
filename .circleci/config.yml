@@ -74,6 +74,8 @@ workflows:
           registry-id: AWS_ECR_REGISTRY_ID
           repo: "${AWS_ECR_REPO_NAME}"
           tag: latest
+          requires:
+            - build_and_test
       - install_k8s:
           filters:
             branches:
