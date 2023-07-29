@@ -28,8 +28,8 @@ jobs:
           name: set up db
           command: bundle exec rails db:migrate
       - run:
-          name: run rspec
-          command: bundle exec rspec
+          name: run test
+          command: bundle exec rails test
 
   install_k8s:
     docker:
