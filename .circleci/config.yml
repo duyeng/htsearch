@@ -23,7 +23,7 @@ jobs:
           command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
       - run:
           name: set up db
-          command: RAILS_ENV=test DATABASE_URL=mysql2://hs:hs@mysql/hotel_search_test bundle exec rails db:create db:migrate
+          command: RAILS_ENV=test DATABASE_URL=mysql2://hs:hs@127.0.0.1:3306/hotel_search_test bundle exec rails db:create db:migrate
       - run:
           name: run rspec
           command: bundle exec rspec
