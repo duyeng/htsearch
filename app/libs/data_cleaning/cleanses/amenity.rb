@@ -1,6 +1,6 @@
 module DataCleaning
   module Cleanses
-    class AmenityCleanse < BaseCleanse
+    class Amenity < Base
       cleanse :name, cleaner: [:strip, :uncamelcase]
       cleanse :category, cleaner: [:strip, :downcase]
     end

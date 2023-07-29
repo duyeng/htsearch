@@ -28,9 +28,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'active_model_serializers'
 gem 'activerecord-import'
-gem 'unicorn'
 
-gem 'sidekiq-cron'
+# gem 'sidekiq-cron'
+gem 'sidekiq-scheduler'
 # gem 'whenever', require: false
 
 group :development, :test do

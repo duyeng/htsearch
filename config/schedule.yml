@@ -3,18 +3,18 @@ extract_data_job_1:
   class: "ExtractDataJob"
   queue: default
   args:
-    name: "acme"
+    - "acme"
 
 extract_data_job_2:
   cron: "*/5 * * * *"
   class: "ExtractDataJob"
   queue: default
   args:
-    name: "paperflies"
+    - "paperflies"
 
 extract_data_job_3:
   cron: "*/5 * * * *"
   class: "ExtractDataJob"
   queue: default
   args:
-    name: "patagonia"
+    - "patagonia"

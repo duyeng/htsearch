@@ -1,9 +1,11 @@
+require 'sidekiq-scheduler'
+
 class ExtractDataJob
   include Sidekiq::Worker
   queue_as :default
 
-  def perform(name)
-    supplier = Suppliers::Factory.get(name)
+  def perform(*args)
+    supplier = Suppliers::Factory.get(args[0])
     hotels, locations, images, amenities = [], [], [], []
 
     merged_hotels = supplier&.extract_data
