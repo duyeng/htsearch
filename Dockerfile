@@ -1,4 +1,3 @@
-# Dockerfile.rails
 FROM ruby:3.1.2 AS rails-toolbox
 
 # Default directory
@@ -7,9 +6,11 @@ RUN mkdir -p $INSTALL_PATH
 
 # Install gems
 WORKDIR $INSTALL_PATH
-COPY . .
+COPY Gemfile Gemfile.lock ./
 RUN gem install rails bundler
 RUN bundle install
 
-# Start server
-CMD bundle exec unicorn -c config/unicorn.rb
+COPY . .
+
+EXPOSE 3000
+CMD ["rails", "server", "-b", "0.0.0.0"]

@@ -1,9 +1,9 @@
-module Suppliers
+module DataExtract
   class Paperflies < Base
     URL_PATH = "https://5f2be0b4ffc88500167b85a0.mockapi.io/suppliers/paperflies"
 
     private
-    def transform_data(json_data)
+    def reformat_data(json_data)
       hotel_id = json_data['hotel_id']
       destination_id = json_data['destination_id']
       name = json_data['hotel_name']

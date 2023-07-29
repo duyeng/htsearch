@@ -1,5 +1,3 @@
-WORKER_PROCESSES=1
-LISTEN_ON=0.0.0.0:8010
-DATABASE_URL=mysql2://hs:hstest@mysql/hotel_search
+DATABASE_URL=mysql2://hs:hs@mysql/hotel_search_development
 CACHE_URL=redis://redis:6379/0
 JOB_WORKER_URL=redis://redis:6379/0

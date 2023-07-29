@@ -1,6 +1,6 @@
 module DataCleaning
   module Cleanses
-    class HotelCleanse < BaseCleanse
+    class Hotel < Base
       cleanse :name, cleaner: [:strip]
       cleanse :description, cleaner: [:strip]
     end

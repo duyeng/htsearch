@@ -1,22 +1,22 @@
 module DataCleaning
   module Cleanses
-    class BaseCleanse
+    class Base
       include DataCleaning::Cleanse
 
-      def initialize(attrs)
-        @attrs = attrs
+      def execute(models)
+        models.map do |model|
+          clean_attributes!(model)
+        end
       end
 
-      def clean_attributes!
+      def clean_attributes!(attrs)
         cleaners = self.class.send(:data_cleaners)
-        new_attrs = @attrs.dup
+        new_attrs = attrs.dup
         cleaners.each do |cleaner|
           cleaner.attributes.each do |attribute|
-            value = @attrs[attribute.to_s]
+            value = attrs[attribute.to_s]
             cleaner.cleaners.each do |cleaner_name|
-              puts "Before data cleaning #{cleaner_name} #{value}"
               new_value = execute_clean_attr(cleaner_name, value)
-              puts "After data cleaning #{new_value}"
               new_attrs[attribute.to_s] = new_value
             end
           end

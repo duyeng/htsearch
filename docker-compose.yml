@@ -1,5 +1,18 @@
 version: "3.9"
 
+x-app: &default-app
+  build:
+    context: .
+    args:
+      - "RAILS_ENV=${RAILS_ENV:-development}"
+  depends_on:
+    - mysql
+    - redis
+  env_file:
+    - ".env"
+  volumes:
+    - "./:/opt/app"
+
 services:
   mysql:
     image: mysql:8.0
@@ -7,45 +20,32 @@ services:
       - SYS_NICE
     restart: always
     environment:
-      - MYSQL_DATABASE=hotel_search
+      - MYSQL_DATABASE=hotel_search_development
       - MYSQL_ROOT_PASSWORD=rootpwd
       - MYSQL_USER=hs
-      - MYSQL_PASSWORD=hstest
+      - MYSQL_PASSWORD=hs
     ports:
-      - '3306:3306'
+      - "3306:3306"
+    volumes:
+      - "mysql:/var/lib/mysql"
 
   redis:
     image: redis:7.0
     ports:
-      - '6379:6379'
-
-  hs:
-    build:
-      context: .
+      - "6379:6379"
     volumes:
-      - ./:/opt/app
-    links:
-      - mysql
-      - redis
-    ports:
-      - '8010:8010'
-    environment:
-      - WORKER_PROCESSES=1
-      - LISTEN_ON=0.0.0.0:8010
-      - DATABASE_URL=mysql2://hs:hstest@mysql/hotel_search
-      - CACHE_URL=redis://redis:6379/0
-      - JOB_WORKER_URL=redis://redis:6379/0
+      - "redis:/data"
 
-  sidekiq:
-    build:
-      context: .
-    command: bundle exec sidekiq
-    links:
-      - mysql
-      - redis
-    environment:
-      - WORKER_PROCESSES=1
-      - LISTEN_ON=0.0.0.0:8010
-      - DATABASE_URL=mysql2://hs:hstest@mysql/hotel_search
-      - CACHE_URL=redis://redis:6379/0
-      - JOB_WORKER_URL=redis://redis:6379/0
+  api:
+    <<: *default-app
+    ports:
+      - "3000:3000"
+
+  worker:
+    <<: *default-app
+    command: "bundle exec sidekiq -C config/sidekiq.yml"
+    entrypoint: []
+
+volumes:
+  mysql: {}
+  redis: {}
