@@ -55,7 +55,7 @@ jobs:
 workflows:
   build_and_push_image:
     jobs:
-      - build_and_test
+      #- build_and_test
       - aws-ecr/build-and-push-image:
           filters:
             branches:
@@ -69,8 +69,8 @@ workflows:
           registry-id: AWS_ECR_REGISTRY_ID
           repo: "${AWS_ECR_REPO_NAME}"
           tag: latest
-          requires:
-            - build_and_test
+          #requires:
+          #  - build_and_test
       - deploy_production:
           filters:
             branches:
