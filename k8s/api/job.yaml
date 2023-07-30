@@ -11,7 +11,8 @@ spec:
         name: api-migrate
     spec:
       containers:
-        - image: 502479798840.dkr.ecr.us-east-2.amazonaws.com/hs-app:latest
+        - name: migration-job
+          image: 502479798840.dkr.ecr.us-east-2.amazonaws.com/hs-app:latest
           command:
             - bundle
             - exec

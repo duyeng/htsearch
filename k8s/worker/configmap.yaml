@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: worker-env
 data:
-  databaseUrl: "mysql2://hs:hs@mysql/hotel_search_production"
-  cacheUrl: "redis://redis:6379/0"
-  jobWorkerUrl: "redis://redis:6379/0"
+  databaseUrl: "mysql2://hs:hs@prod-mysql/hotel_search_production"
+  cacheUrl: "redis://prod-redis:6379/0"
+  jobWorkerUrl: "redis://prod-redis:6379/0"

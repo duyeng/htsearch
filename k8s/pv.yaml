@@ -6,11 +6,10 @@ metadata:
     name: mysql-storage
 spec:
   capacity:
-    storage: 5Gi
+    storage: 8Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: standard
-  gcePersistentDisk:
-    pdName: mysql-storage
-  hostPath: /data/mysql/
+  storageClassName: local
+  hostPath:
+    path: /data/mysql/
