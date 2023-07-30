@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -euo pipefail
+
 env=${1:-}
 
 if [[ "$env" == "dev" ]]; then
