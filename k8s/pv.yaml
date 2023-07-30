@@ -2,6 +2,8 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mysql-storage
+  labels:
+    name: mysql-storage
 spec:
   capacity:
     storage: 5Gi
@@ -9,5 +11,6 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
-  hostPath:
-    path: /data/mysql/
+  gcePersistentDisk:
+    pdName: mysql-storage
+  hostPath: /data/mysql/

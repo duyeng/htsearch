@@ -2,22 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: hs-sidekiq
-  name: hs-sidekiq
-  namespace: rails-app
+    service: worker
+  name: worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: hs-sidekiq
+      service: worker
   strategy: {}
   template:
     metadata:
       labels:
-        service: hs-sidekiq
+        service: worker
     spec:
       containers:
-        - name: hs-sidekiq
+        - name: worker
           image: 502479798840.dkr.ecr.us-east-2.amazonaws.com/hs-app:latest
           args:
             - bundle
@@ -26,19 +25,19 @@ spec:
           env:
             - name: DATABASE_URL
               valueFrom:
-                secretKeyRef:
-                  name: hs-sidekiq-config
-                  key: database-url
+                configMapKeyRef:
+                  name: worker-env
+                  key: databaseUrl
             - name: CACHE_URL
               valueFrom:
-                secretKeyRef:
-                  name: hs-sidekiq-config
-                  key: cache-url
+                configMapKeyRef:
+                  name: worker-env
+                  key: cacheUrl
             - name: JOB_WORKER_URL
               valueFrom:
-                secretKeyRef:
-                  name: hs-sidekiq-config
-                  key: job-worker-url
+                configMapKeyRef:
+                  name: worker-env
+                  key: jobWorkerUrl
           resources: {}
       imagePullSecrets:
         - name: regcred

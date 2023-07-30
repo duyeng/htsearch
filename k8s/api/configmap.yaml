@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-env
+data:
+  databaseUrl: "mysql2://hs:hs@mysql/hotel_search_production"
+  cacheUrl: "redis://redis:6379/0"
+  jobWorkerUrl: "redis://redis:6379/0"

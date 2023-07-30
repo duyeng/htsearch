@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: api-migrate
+  labels:
+    name: api-migrate
+spec:
+  template:
+    metadata:
+      labels:
+        name: api-migrate
+    spec:
+      containers:
+        - image: 502479798840.dkr.ecr.us-east-2.amazonaws.com/hs-app:latest
+          command:
+            - bundle
+            - exec
+            - rails
+            - db:migrate
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: api-env
+                  key: databaseUrl
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Never

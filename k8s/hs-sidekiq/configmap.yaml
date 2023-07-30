@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: hs-sidekiq-config
-  namespace: rails-app
-data:
-  database-url: "mysql2://hs:hs@mini-mysql/hotel_search_development"
-  cache-url: "redis://redis:6379/0"
-  job-worker-url: "redis://redis:6379/0"
