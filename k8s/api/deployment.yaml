@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: api
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        service: api
+    spec:
+      containers:
+        - name: api
+          image: 502479798840.dkr.ecr.us-east-2.amazonaws.com/hs-app:latest
+          ports:
+            - containerPort: 3000
+              hostPort: 3000
+              protocol: TCP
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: api-env
+                  key: databaseUrl
+            - name: CACHE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: api-env
+                  key: cacheUrl
+            - name: JOB_WORKER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: api-env
+                  key: jobWorkerUrl
+          resources: {}
+      imagePullSecrets:
+        - name: regcred
+      restartPolicy: Always
+status: {}

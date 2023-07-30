@@ -4,9 +4,9 @@ resources:
   - configmap.yaml
   - deployment.yaml
   - service.yaml
-  - namespace.yaml
-namespace: rails-app
+  - job.yaml
 images:
   - name: hs-app
     newName: hs-app
     newTag: v1
+namePrefix: prod-

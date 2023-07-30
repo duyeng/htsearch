@@ -31,7 +31,7 @@ jobs:
           name: Run test
           command: bundle exec rails test
 
-  install_k8s:
+  deploy_production:
     docker:
       - image: cimg/python:3.10.7
     steps:
@@ -49,13 +49,8 @@ jobs:
           name: Install and configure kubectl aws-iam-authenticator
           command: curl -Lo aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/aws-iam-authenticator_0.5.9_linux_amd64 && chmod +x ./aws-iam-authenticator && mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin
       - run:
-          name: "docker login"
-          command: |
-            aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin "${AWS_ECR_REGISTRY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-      - run:
-          name: "cluster configs"
-          command: |
-            eksctl utils write-kubeconfig --cluster=${AWS_EKS_CLUSTER_NAME} --region=${AWS_REGION}
+          name: Deploy production
+          command: deploy.sh prod
 
 workflows:
   build_and_push_image:
@@ -76,9 +71,9 @@ workflows:
           tag: latest
           requires:
             - build_and_test
-      - install_k8s:
+  deploy_production:
+    jobs:
+      - deploy_production:
           filters:
             branches:
               only: main
-          requires:
-            - aws-ecr/build-and-push-image
