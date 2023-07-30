@@ -53,9 +53,6 @@ jobs:
           command: aws eks update-kubeconfig --name ${AWS_EKS_CLUSTER_NAME} --region ${AWS_REGION}
       - run:
           name: Deploy MySQL
-          command: kubectl apply -f ./k8s/pv.yaml
-      - run:
-          name: Deploy MySQL
           command: kubectl apply -f ./k8s/pv.yaml && kustomize build ./k8s/mysql | kubectl apply -f -
       - run:
           name: Deploy Redis
