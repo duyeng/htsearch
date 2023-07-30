@@ -71,9 +71,9 @@ workflows:
           tag: latest
           requires:
             - build_and_test
-  deploy_production:
-    jobs:
       - deploy_production:
           filters:
             branches:
               only: main
+          requires:
+            - aws-ecr/build-and-push-image
