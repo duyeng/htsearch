@@ -24,9 +24,29 @@ Things you may want to cover:
 
 * Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
-   - Deploy in local: ```./deploy.sh dev```
-   - Deploy to AWS: ```./deploy.sh prod```
+## Deployment instructions
+
+* Deploy in local dev:
+  - Prerequisites:
+    - Docker
+    - Docker compose
+  - Run commands from root directory:
+    - `./deploy.sh dev`
+  - Test the API getting hotels:
+    - `curl --location 'http://localhost:3000/api/v1/hotels?destination=1122&hotels=f8c9%2CiJhz%2CSjyX'`
+* Deploy to AWS:
+  - Prerequisites:
+    - AWS CLI
+    - AWS Elastic Kubernetes Service
+    - AWS Elastic Container Registry
+    - Kubectl
+  - Run commands from root directory:
+  ```
+    export AWS_EKS_CLUSTER_NAME=<your_eks_cluster>
+    export AWS_REGION=<your_aws_region>
+    export AWS_ACCOUNT=<your_aws_ecr_registry_id>
+    ./deploy.sh prod
+  ```
 
 
 ## Design Overview
