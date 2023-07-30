@@ -1,15 +1,11 @@
-apiVersion: v1
 kind: PersistentVolumeClaim
+apiVersion: v1
 metadata:
-  name: mysql-pv-claim
-  labels:
-    app: mysql
+  name: mysql-local-vol
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
-  selector:
-    matchLabels:
-      name: mysql-storage
+      storage: 8Gi
+  storageClassName: local
