@@ -1,19 +1,19 @@
 extract_data_job_1:
-  cron: "*/5 * * * *" # execute at every 5 minutes
+  cron: "* */3 * * *" # execute at every 3rd hour
   class: "ExtractDataJob"
   queue: default
   args:
     - "acme"
 
 extract_data_job_2:
-  cron: "*/5 * * * *"
+  cron: "* */3 * * *"
   class: "ExtractDataJob"
   queue: default
   args:
     - "paperflies"
 
 extract_data_job_3:
-  cron: "*/5 * * * *"
+  cron: "* */3 * * *"
   class: "ExtractDataJob"
   queue: default
   args:
