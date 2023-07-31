@@ -6,7 +6,7 @@ metadata:
     name: mysql-storage
 spec:
   capacity:
-    storage: 8Gi
+    storage: 10Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
