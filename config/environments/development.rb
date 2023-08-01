@@ -51,4 +51,5 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.hosts << "hs"
+  config.hosts << "a14a5b5fa27be4fe7a70e40507772eba-774453381.us-east-2.elb.amazonaws.com"
 end
