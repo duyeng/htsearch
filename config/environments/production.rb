@@ -102,5 +102,5 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
-  config.hosts << "a14a5b5fa27be4fe7a70e40507772eba-774453381.us-east-2.elb.amazonaws.com"
+  config.hosts = nil
 end
