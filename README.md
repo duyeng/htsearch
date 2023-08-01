@@ -47,6 +47,8 @@ Things you may want to cover:
     export AWS_ACCOUNT=<your_aws_ecr_registry_id>
     ./deploy.sh prod
   ```
+  - Test the API endpoint:
+    - `curl --location 'http://a14a5b5fa27be4fe7a70e40507772eba-774453381.us-east-2.elb.amazonaws.com:3000/api/v1/hotels?destination=5432&hotels=f8c9%2CiJhz%2CSjyX'`
 
 
 ## Design Overview
